@@ -107,10 +107,10 @@ client.on('ready', () => {
       fetchUniques(cache.activeLeague);
 
       setInterval(fetchLeagues, 3600000);
-      setInterval(fetchUniques, 3600000)
+      setInterval(fetchUniques, 3600000);
 
       setInterval(function() {
-        fetchCurrencies(cache.activeLeague)
+        fetchCurrencies(cache.activeLeague);
       }, 3600000);
 
     });
@@ -134,15 +134,22 @@ Currencies: ${Object.keys(CURRENCY_CHART).toString().split(',').join(', ')}
 
 Commands:
 
-+ex           to get chaos equivalent
-+ex mirror    gets exchange rate 
-+wanderlust   gets the current price for the item
+!ex           to get chaos equivalent
+!ex mirror    gets exchange rate 
+!wanderlust   gets the current price for the item
+!league       league for which the bot is running
+!random       gets the price for a random item
 \`\`\`
     `);
   }
 
   if (command === 'league') {
     message.channel.send(`Current league: ${cache.activeLeague}`);
+  }
+
+  if (command === 'random') {
+    const ITEM = cache.items[Math.floor(Math.random() * cache.items.length)];
+    message.channel.send(`${ITEM.chaosValue}c to buy ${ITEM.name} in ${cache.activeLeague}`)
   }
 
   if (args.length === 2 && Object.keys(CURRENCY_CHART).indexOf(args[0]) > -1 && Object.keys(CURRENCY_CHART).indexOf(args[1]) > -1) {
